@@ -1,2 +1,9 @@
 .sass-cache/
 *.css.map
+
+# Mac
+.DS_Store
+
+# IntelliJ
+.idea/
+*.iml
