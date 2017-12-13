@@ -7,3 +7,9 @@
 # IntelliJ
 .idea/
 *.iml
+
+#npm
+node_modules
+
+# be great to create these based on the config
+build
