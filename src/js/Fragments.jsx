@@ -1,6 +1,7 @@
-
-// import React from 'react';
+import {React} from 'react'
 
 // export const TestFragment = () => {}
 
-export const TestFragment = <>hi, I am a string fragment</>;
+const test = hi, I am a string fragment;
+
+export default test;

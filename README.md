@@ -22,6 +22,8 @@ https://www.youtube.com/watch?v=EiitCT_99XE&t=1359s
 https://reactjs.org/docs/typechecking-with-proptypes.html
 &
 https://github.com/styleguidist/react-styleguidist
+* add data/api to style-guide, api urls, data schemas
+
 
 # new
 1. touch gulpfile.babel.js

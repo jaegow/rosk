@@ -5,6 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
+        <!-- css file built via sass and compiled into index.html via htmlWebpackPlugin -->
+        <link rel="stylesheet" type="text/css" href="<%= htmlWebpackPlugin.options.css %>">
+
         <!-- Allow installing the app to the homescreen -->
         <link rel="manifest" href="/manifest.json">
         <meta name="mobile-web-app-capable" content="yes">
@@ -15,19 +18,19 @@
         <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
         <link rel="apple-touch-icon" sizes="167x167" href="/icon-167x167.png">
         <link rel="apple-touch-icon" sizes="180x180" href="/icon-180x180.png">
-        <title>ROSK</title>
+        <title><%= htmlWebpackPlugin.options.title %></title>
     </head>
     <body>
 
         <noscript>
-            <p>No Javascript?</p>
-            <p><strong>COME ON!</strong></p>
-            <p>Please enable Javascript to gain super powers</p>
+            <p>?? No Javascript ??</p>
+            <p><strong>!! COME ON !!</strong></p>
+            <p> - - Please enable Javascript to gain super powers - - </p>
         </noscript>
 
-        <p>no I am not rendered from react</p>
-        <p>but wait</p>
-        <p>there's more</p>
+        <p> - - no I am not rendered from react - - </p>
+        <p> - - but wait ...</p>
+        <p> - - there's more ... </p>
 
         <div id="app"></div>
     </body>
