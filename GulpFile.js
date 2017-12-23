@@ -6,6 +6,7 @@ var gulp_sass = require('gulp-sass');
 var gulp_sequence = require('gulp-sequence').use(gulp);
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var  path = require('path');
 var browserSync = require('browser-sync');
 
 const config = {
@@ -29,6 +30,7 @@ config.css = {
 };
 config.css.build.file = config.css.build.directory + '/' +  config.css.build.fileName;
 config.js = {
+  directory: config.src + '/js',
   glob: {
     src: config.src + '/js/**/*.*',
   },
@@ -84,6 +86,10 @@ const webpackConfig = {
     path: config.js.output.directory,
     filename: config.js.output.fileName
   },
+  resolve: {
+    modules: [config.js.directory, "node_modules"], // add the js src directory to avoid relative paths for your imports
+    extensions: [".js", ".jsx"] // make sure to include all the javascript exstensions you need
+  },
   module: {
     loaders: [
       {
@@ -109,26 +115,27 @@ gulp.task('webpack', function(callback) {
   });
 });
 
-gulp.task('browser-sync', () => {
+gulp.task('browser-sync', function(callback) {
   browserSync.init({
     server: config.build,
     port: 8080,
     browser: "google chrome",
     middleware: [
-      require('connect-history-api-fallback')() // used to redirect all traffic through the server root directory
+      require('connect-history-api-fallback')() // used to redirect all server traffic through the root directory
     ],
     ui: { port: 8081 },
     files: [config.js.output.file, config.html.build, config.css.build.file]
   });
-  browserSync.notify('<span style="color: grey">Running:</span>');
+  // browserSync.notify('<span style="color: grey">Running:</span>');
 });
 
-gulp.task('watch', () => {
+gulp.task('watch', function(callback) {
   gulp.watch(config.js.glob.src, ['webpack']);
   gulp.watch(config.html.src, ['webpack']);
   gulp.watch(config.sass.glob, ['sass']);
+  callback();
 });
 
 gulp.task('default', function (callback) {
-  gulp_sequence('clean', 'sass', 'webpack', 'browser-sync', 'watch')(callback);
+  gulp_sequence('clean', 'sass', 'webpack', 'watch', 'browser-sync')(callback);
 });

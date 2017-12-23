@@ -1,43 +1,44 @@
-# rosk
-React Opinionated Starter Kit
+# React Opinionated Starter Kit (ROSK)
 
 ###### Global should haves
-1. brew
 1. node / npm
-1. yarn
 1. gulp
 
-###### Project Creation Timeline
-1. yarn install
-2. see package json
-⋅⋅* html-webpack-plugin augments the index.html page
-⋅⋅* html-webpack-plugin generates/copies the index.html page into it's respective folder
+##### Opinionated Manifesto 
+###### most optimized && most understandable && most efficient
+* standards || rules
+  * easily digestible code
+  * descriptive & verbose over less lines
+  * procedural
+  * rapid dev by using small design bits || tokens
+  * page to code
+    * what the user sees should translate to code
+    * view hierarchy should match code hierarchy
+  * DESIGN SYSTEM DESIGN SYSTEM DESIGN SYSTEM DESIGN SYSTEM
+    * create a new repo or npm module for css / design system
+    * living style guide
+  * Living API guide
+    * code examples of all of API endpoints (internal use)
+* optimization rules
+  * https://www.sitepoint.com/10-ways-minimize-reflows-improve-performance
+  * https://reactjs.org/docs/optimizing-performance
 
-yarn add react-router
+###### Useful notes
+* HtmlWebpackPlugin
+  * augments the index.html page
+  * generates/copies the index.html page into it's respective folder
 
-
-##### todo: 
-https://github.com/davidhund/styleguide-generators#user-content-react
-https://www.youtube.com/watch?v=EiitCT_99XE&t=1359s
-https://reactjs.org/docs/typechecking-with-proptypes.html
-&
-https://github.com/styleguidist/react-styleguidist
+###### todo: 
+* https://github.com/davidhund/styleguide-generators#user-content-react
+* https://www.youtube.com/watch?v=EiitCT_99XE&t=1359s
+* https://reactjs.org/docs/typechecking-with-proptypes.html & https://github.com/styleguidist/react-styleguidist
 * add data/api to style-guide, api urls, data schemas
+* ? control statements ? https://www.npmjs.com/package/jsx-control-statements 
+* start to finish step by step to create this starter kit
+  * ie - $ touch gulpfile.babel.js  
+* gulp-sourcemaps --dev
+* webpack-dev-middleware --dev
+* manifest.json -- https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json
 
-
-# new
-1. touch gulpfile.babel.js
-
-# maybe later
-1. yarn add gulp-sourcemaps --dev ?? see if we should remove this or make sure it is in the gulpfile.babel.js
-
-# descriptions || key words
-react-starter-kit, react starter kit
-
-# communicate things like this
-- manifest.json -- https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json
-
-
-
-
-yarn add webpack-dev-middleware --dev
+###### descriptions || key words
+* react-starter-kit, react starter kit

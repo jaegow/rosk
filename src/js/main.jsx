@@ -1,6 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Link } from 'react-router-dom'
+import Home from 'pages/Home'
+import About from 'pages/About'
 
 ReactDOM.render((
     <BrowserRouter>
@@ -13,9 +15,9 @@ ReactDOM.render((
 
         <hr/>
 
-        <Route exact path="/" component={() => <div>Home</div>}/>
-        <Route path="/about" component={() => <div>About</div>}/>
-        <Route path="/topics" component={() => <div>Topics</div>}/>
+        <Route exact path="/" component={Home}/>
+        <Route path="/about" component={About}/>
+        <Route path="/topics" component={() => <div>This is topics so what is your problem</div>}/>
       </div>
     </BrowserRouter>
   ),
