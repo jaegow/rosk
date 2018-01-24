@@ -9,14 +9,14 @@ const About = ({
   dumb, dumber
 }) => (
   <div>
-    <p>About Section - good times forevers</p>
+    <p>About Section - good times forever</p>
     <p>dumb = {dumb}</p>
-    <p>dumber = {dumber}</p> ///shit
+    <p>dumber = {dumber}</p>
   </div>
 );
 
 About.propTypes = {
-  /** Description of prop "dumb". */
+  /** Description of prop "dumb" and you are the coolest. */
   dumb: PropTypes.string.isRequired,
   /** Description of prop "dumber". */
   dumber: PropTypes.string

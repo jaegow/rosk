@@ -9,14 +9,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var browserSync = require('browser-sync');
 // var gulp_sourcemaps = require('gulp-sourcemaps');
-var recast = require("recast");
-var fs = require('fs');
-var gulp_read = require('gulp-read');
-var gulp_file = require('gulp-file');
-// var styleguidist = require('react-styleguidist');
-
-
-
+var styleguidist = require('react-styleguidist');
 
 const config = {
   isProd: gulp_util.env.prod !== undefined, // gulp_util.env picks up args, ie - gulp --prod || gulp --dev
@@ -51,6 +44,10 @@ config.js = {
 };
 config.js.output.file = config.js.output.directory + '/' + config.js.output.fileName;
 config.compiled = config.build + '/compiled'
+config.sg = {
+  build: config.build + '/style-guide'
+};
+
 
 gulp.task('clean', function(callback) {
   return gulp.src(config.build, {read: false})
@@ -137,117 +134,83 @@ gulp.task('webpack', function(callback) {
   });
 });
 
-gulp.task('browser-sync', function(callback) {
-  return browserSync.init({
+var browserSync_app = browserSync.create('app');
+gulp.task('browser-sync-app', function(callback) {
+  browserSync_app.init({
     server: config.build,
     port: 8080,
     browser: "google chrome",
     // todo: create multiple instance of browser-sync to support the below middleware below while also supporting multiple endpoints so you can view the generated styleguide as wekll
-    // middleware: [
-    //   require('connect-history-api-fallback')() // used to redirect all server traffic through the root directory
-    // ],
+    middleware: [
+      require('connect-history-api-fallback')() // used to redirect all server traffic through the root directory
+    ],
     ui: { port: 8081 },
     files: [config.js.output.file, config.html.build, config.css.build.file]
   });
-  /// callback();
+  callback();
   // browserSync.notify('<span style="color: grey">Running:</span>');
 });
 
-gulp.task('watch', function(callback) {
+var browserSync_sg = browserSync.create('sg');
+gulp.task('browser-sync-sg', function(callback) {
+  browserSync_sg.init({
+    server: config.sg.build,
+    port: 8082,
+    browser: "google chrome",
+    ui: { port: 8082 },
+    files: [config.js.output.file, config.html.build, config.css.build.file]
+  });
+  callback();
+});
+
+gulp.task('watch-dev', function(callback) {
   gulp.watch(config.js.glob.src, ['webpack']);
   gulp.watch(config.html.src, ['webpack']);
   gulp.watch(config.sass.glob, ['sass']);
   callback();
 });
 
-// var styleguidistConfig = {
-//   // logger: {
-//   //   warn: console.warn,
-//   //   info: console.log,
-//   //   debug: console.log
-//   // },
-//   // dangerouslyUpdateWebpackConfig(srcWebpackConfig, env) {
-//   //   // WARNING: inspect Styleguidist Webpack config before modifying it, otherwise you may break Styleguidist
-//   //   console.log('styleguidist webpackConfig', webpackConfig)
-//   //   webpackConfig.plugins = [];
-//   //   return webpackConfig;
-//   // },
-//   styleguideDir: config.build + '/styleguide',
-//   components: config.src + '/js/**/*.{js,jsx}',
-//   // styleguidist ignores: webpackConfig.entry, webpackConfig.externals, webpackConfig.output, webpackConfig.watch, and webpackConfigstats
-//   webpackConfig: Object.assign({}, srcWebpackConfig, {
-//     plugins: []
-//   })
-// };
-//
-// //console.log('styleguidistWebpackConfig', styleguidistWebpackConfig);
-//
-// gulp.task('styleguidist', function(callback) {
-//   var styleguide = styleguidist(styleguidistConfig);
-//   styleguide.build( function(err, config) {
-//     if (err) {
-//       console.log(err)
-//     } else {
-//       console.log('Style guide published to', config.styleguideDir)
-//     }
-//   });
-//   return callback();
-// });
-
-// gulp.task('recast', function(callback) {
-//   fs.readFile(config.js.output.file, 'utf8', function (err,data) {
-//     if (err) {
-//       return console.log(err);
-//     }
-//     // var result = recast.print(transform(recast.parse(source, {
-//     //   sourceFileName: "bundle.js"
-//     // })), {
-//     //   sourceMapName: "bundle.js.map"
-//     // });
-//     //
-//     // var output = result.code;
-//
-//     var ast = recast.parse(data);
-//
-//     var output = recast.print(ast).code;
-//     // var output = recast.prettyPrint(ast, { tabWidth: 2 }).code;
-//
-//     console.log(output);
-//     // JSON.stringify(ast)
-//
-//     // fs.appendFile(config.compiled + '/test.json', 'suck it', function (err) {
-//     //   if (err) throw err;
-//     //   console.log("The file was succesfully saved!");
-//     // });
-//
-//     return gulp.src(config.compiled)
-//       .pipe(file('primus.js', str))
-//       .pipe(gulp.dest('dist'));
-//
-//
-//     return callback();
-//   });
-// });
-
-
-gulp.task('recast', function() {
-
-  return gulp.src(config.js.output.file).pipe(zlib.createGzip()).pipe(fs.createWriteStream('file.txt.gz'));
-
-
-
-  return gulp.src(config.js.output.file)
-    .pipe(imagemin())
-    .pipe(remember())
-    .pipe(gulp.dest('dist/images'));
+gulp.task('watch-dev', function(callback) {
+    gulp.watch(config.js.glob.src, ['webpack']);
+    gulp.watch(config.html.src, ['webpack']);
+    gulp.watch(config.sass.glob, ['sass']);
+    callback();
 });
 
-
-
-// gulp.task('default', function (callback) {
-//   gulp_sequence('clean', 'sass', 'webpack', 'watch', 'browser-sync')(callback);
-// });
-
-gulp.task('default', function (callback) {
-  gulp_sequence('clean', 'sass', 'webpack', 'recast')(callback);
+gulp.task('watch-dev-sg', function(callback) {
+    gulp.watch(config.js.glob.src, ['webpack', 'styleguidist']);
+    gulp.watch(config.html.src, ['webpack']);
+    gulp.watch(config.sass.glob, ['sass', 'styleguidist']);
+    callback();
 });
+
+gulp.task('styleguidist', function(callback) {
+  var styleguide = styleguidist({
+      logger: {
+          warn: console.warn,
+          info: console.log,
+          debug: console.log
+      },
+      styleguideDir: config.sg.build,
+      components: config.js.glob.src,
+      webpackConfig: srcWebpackConfig
+  });
+  styleguide.build( function(err, config) {
+      if (err) {
+          console.log(err)
+      } else {
+          return callback();
+          console.log('Style guide published to', config.styleguideDir)
+      }
+    }
+  );
+});
+
+gulp.task('dev', function (callback) {
+    gulp_sequence('clean', 'sass', 'webpack', 'browser-sync-app', 'watch-dev')(callback);
+});
+
+gulp.task('dev-sg', function (callback) {
+    gulp_sequence('clean', 'sass', 'webpack', 'styleguidist', 'browser-sync-app', 'browser-sync-sg', 'watch-dev-sg')(callback);
+});
+
