@@ -6,6 +6,13 @@
 
 ##### Opinionated Manifesto 
 ###### most optimized && most understandable && most efficient
+* lean on existing libs instead of writting your own implementation
+  * promotes familiarity amoung other developers
+  * faster learning curve with proven tool 
+  * community driven development rounds the rough edges of personal implementation
+  * attempt to only write your own when other libs fail to provide
+* define your personal structure first !!!
+  * why do you have this structure
 * standards || rules
   * easily digestible code
   * descriptive & verbose over less lines
@@ -29,6 +36,7 @@
   * generates/copies the index.html page into it's respective folder
 
 ###### todo: 
+* optimize webpack: https://github.com/webpack/docs/wiki/optimization
 * https://github.com/davidhund/styleguide-generators#user-content-react
 * https://www.youtube.com/watch?v=EiitCT_99XE&t=1359s
 * https://reactjs.org/docs/typechecking-with-proptypes.html & https://github.com/styleguidist/react-styleguidist
@@ -39,6 +47,16 @@
 * gulp-sourcemaps --dev
 * webpack-dev-middleware --dev
 * manifest.json -- https://developer.mozilla.org/en-US/Add-ons/WebExtensions/manifest.json
+* DESIGN SYSTEM:
+  * vertical flow
+  * grid (CSS Grid ??)
+  * containers define layout
+  * posters (background images)
+
+
+###### justifications
+* see optimization rules
+* list some useful tidbits here
 
 ###### descriptions || key words
 * react-starter-kit, react starter kit

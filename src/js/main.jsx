@@ -16,7 +16,9 @@ ReactDOM.render((
         <hr/>
 
         <Route exact path="/" component={Home}/>
-        <Route path="/about" component={About}/>
+        <Route path="/about" component={() => {
+         return <About dumb={`this is dumb`} dumber={`this is dumber`} />
+        }}/>
         <Route path="/topics" component={() => <div>This is topics so what is your problem</div>}/>
       </div>
     </BrowserRouter>
