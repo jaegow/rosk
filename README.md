@@ -35,6 +35,13 @@
   * augments the index.html page
   * generates/copies the index.html page into it's respective folder
 
+###### STARTING SERVER
+* Start MongoDB Server
+Open your terminal and from current directory run:
+$ mongod
+* Start Node Server
+$ node client/server.js 
+
 ###### todo: 
 * optimize webpack: https://github.com/webpack/docs/wiki/optimization
 * https://github.com/davidhund/styleguide-generators#user-content-react

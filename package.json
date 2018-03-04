@@ -7,17 +7,19 @@
   "author": "Justin Gow <jaegow@gmail.com>",
   "license": "Apache-2.0",
   "dependencies": {
+    "express": "^4.16.2",
+    "mongoose": "^5.0.8",
+    "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-router-dom": "^4.2.2",
-    "prop-types": "^15.6.0"
+    "react-router-dom": "^4.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.35",
     "@babel/preset-env": "^7.0.0-beta.35",
     "@babel/preset-react": "^7.0.0-beta.35",
     "babel-loader": "^8.0.0-beta.0",
-    "browser-sync": "^2.18.13",
+    "browser-sync": "^2.23.5",
     "connect-history-api-fallback": "^1.5.0",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
@@ -26,6 +28,7 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-util": "^3.0.8",
     "html-webpack-plugin": "^2.30.1",
+    "nodemon": "^1.17.1",
     "react-styleguidist": "^6.2.0",
     "run-sequence": "^2.2.0",
     "uglifyjs-webpack-plugin": "^1.1.4",

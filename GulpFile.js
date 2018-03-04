@@ -5,11 +5,14 @@ var gulp_clean = require('gulp-clean');
 var gulp_sass = require('gulp-sass');
 var gulp_sequence = require('gulp-sequence').use(gulp);
 var webpack = require('webpack');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 var browserSync = require('browser-sync');
 // var gulp_sourcemaps = require('gulp-sourcemaps');
 var styleguidist = require('react-styleguidist');
+
 
 const config = {
   isProd: gulp_util.env.prod !== undefined, // gulp_util.env picks up args, ie - gulp --prod || gulp --dev
@@ -48,6 +51,8 @@ config.sg = {
   build: config.build + '/style-guide'
 };
 
+var browserSync_app = browserSync.create('app');
+var browserSync_sg = browserSync.create('sg');
 
 gulp.task('clean', function(callback) {
   return gulp.src(config.build, {read: false})
@@ -55,8 +60,13 @@ gulp.task('clean', function(callback) {
 });
 gulp.task('sass', function(callback) {
   return gulp.src(config.sass.glob)
-    .pipe(gulp_sass().on('error', gulp_sass.logError))
-    .pipe(gulp.dest(config.css.build.directory));
+    .pipe(gulp_sass())
+    .on('error', function(err){
+      browserSync_app.notify(err.message);
+      this.emit('end');
+    })
+    .pipe(gulp.dest(config.css.build.directory))
+    .pipe(browserSync_app.stream({match: "**/*.css"}));
 });
 
 // todo: don't use this... separate and remove need to recompile html file when other webpack changes happen
@@ -127,14 +137,29 @@ const srcWebpackConfig = {
 };
 
 gulp.task('webpack', function(callback) {
+
+
   return webpack(srcWebpackConfig, function(error, stats) {
-    if(error) throw new gulp_util.PluginError('webpack', error);
-    gulp_util.log('[webpack]', stats.toString({colors: true, progress: true}));
+    console.log('*** webpack');
+    //console.log('*** webpack stats', stats.compilation.errors.length);
+    if(stats.compilation.errors.length) {
+      console.log('*** webpack error', stats.compilation.errors);
+      browserSync_app.notify("" + stats.compilation.errors, 8000);
+      // throw new gulp_util.PluginError('webpack', error);
+    } else {
+      browserSync_app.stream({match: "**/*.js"});
+    }
     callback();
+    // console.log('*** webpack stats', stats);
+    // if(error) {
+    //   console.log('*** webpack error', error);
+    //   browserSync_app.notify(error);
+    //   throw new gulp_util.PluginError('webpack', error);
+    // }
+    // gulp_util.log('[webpack]', stats.toString({colors: true, progress: true}));
   });
 });
 
-var browserSync_app = browserSync.create('app');
 gulp.task('browser-sync-app', function(callback) {
   browserSync_app.init({
     server: config.build,
@@ -151,22 +176,15 @@ gulp.task('browser-sync-app', function(callback) {
   // browserSync.notify('<span style="color: grey">Running:</span>');
 });
 
-var browserSync_sg = browserSync.create('sg');
+
 gulp.task('browser-sync-sg', function(callback) {
   browserSync_sg.init({
     server: config.sg.build,
     port: 8082,
     browser: "google chrome",
     ui: { port: 8082 },
-    files: [config.js.output.file, config.html.build, config.css.build.file]
+    files: [config.sg.build + '/index.html']
   });
-  callback();
-});
-
-gulp.task('watch-dev', function(callback) {
-  gulp.watch(config.js.glob.src, ['webpack']);
-  gulp.watch(config.html.src, ['webpack']);
-  gulp.watch(config.sass.glob, ['sass']);
   callback();
 });
 
