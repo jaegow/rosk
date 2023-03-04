@@ -1,0 +1,6 @@
+{
+  "name": "Spritz",
+  "display": "standalone",
+  "start_url": "/?standalone=true",
+  "theme_color": "#000000"
+}

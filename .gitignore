@@ -11,5 +11,6 @@
 #npm
 node_modules
 
-# be great to create these based on the config
-build
+#env
+.env
+

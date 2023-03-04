@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../src/feature/ExamplePage.tsx"],
+  "sourcesContent": ["import React, {FC} from 'react';\n\n// eslint-disable-next-line @typescript-eslint/no-unused-vars\nconst sectionId = 'ExamplePage';\n\ninterface ExamplePageProps {\n    foo: string;\n    bar: number;\n}\n\nconst ExamplePage: FC<ExamplePageProps> = ({foo, bar}) => {\n\n    return (\n        <div data-testid={sectionId} >\n            <p>Example Page is working...</p>\n            <p>foo: {foo}</p>\n            <p>bar: {bar}</p>\n        </div>\n    );\n};\n\nexport default ExamplePage;\nexport type {ExamplePageProps};\nexport {sectionId};\n"],
+  "mappings": ";;;;;;AAAA,mBAAwB;AAGxB,IAAM,YAAY;AAOlB,IAAM,cAAoC,CAAC,EAAC,KAAK,IAAG,MAAM;AAEtD,SACI,6BAAAA,QAAA,cAAC,SAAI,eAAa,aACd,6BAAAA,QAAA,cAAC,WAAE,4BAA0B,GAC7B,6BAAAA,QAAA,cAAC,WAAE,SAAM,GAAI,GACb,6BAAAA,QAAA,cAAC,WAAE,SAAM,GAAI,CACjB;AAER;AAEA,IAAO,sBAAQ;",
+  "names": ["React"]
+}
