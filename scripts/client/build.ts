@@ -4,11 +4,11 @@ import path from 'path';
 import { execSync } from 'child_process';
 import esbuild, { BuildOptions as ESBuildOptions } from 'esbuild';
 import fs from 'fs-extra';
-import copyFiles, { CopyFilesOption } from '../utils/copyFiles';
-import { compileTemplates, CompileTemplateOption } from '../utils/template';
+import copyFiles, { CopyFilesOption } from './utils/copyFiles';
+import { compileTemplates, CompileTemplateOption } from './utils/template';
 import historyApiFallback from 'connect-history-api-fallback';
 
-import { getSubLogger } from '../utils/log';
+import { getSubLogger } from './utils/log';
 
 const sectionId = 'scripts/client/build';
 const log = getSubLogger({ context: sectionId });
@@ -131,95 +131,7 @@ const build = async (options: BuildOptions) => {
         log.info(`SERVER STARTED`, { options: serverOptions });
         const bs = browserSync.create();
 
-        // module.exports = "";
-
-        // bs.stream()
-
-
-        // @ts-ignore
-        bs.use({
-            plugin: (opts, bsi) => {
-                console.log('shslkdjlwkjdklsd')
-
-                setTimeout(() => {
-                    const registeredConnections = Object.keys(bsi.io.sockets.sockets);
-                    if (registeredConnections.length === 0) {
-                        //
-                        bsi.getOption('open');
-
-                        // bsi.op
-                        // bsi.setOption('open', 'local');
-                        // bsi.utils.openBrowser(opts.options.getIn(['urls', 'local']), client.options, client);
-                    }
-                }, 1000);
-            },
-            hooks: {
-                ['client:js']: `
-                    ((window, bs) => {
-                        let canReload = false;
-                        bs.socket.on("connection", () => {
-                            if (canReload) {
-                                canReload = false;
-                                window.location.reload();
-                            }
-                        });
-                        bs.socket.on("disconnect", () => canReload = true);
-                    })(window, ___browserSync___);
-                `,
-            }
-           // plugin: (opts, bsi) => {
-           //     // console.log('bsi.io.sockets.server.eio.ws', bsi.io.sockets.server.eio.ws)
-           //
-           //     // console.log('bsi.io.sockets.server.eio', bsi.io.sockets.server.eio)
-           //
-           //     console.log('bsi.___browserSync___', bsi.___browserSync___);
-           //
-           //     //     ['client:js']: ___browserSync___.socket.on('disconnect', () => {
-           //     //         // window.close.bind(window
-           //     //         console.log('does this');
-           //     //     }
-           //
-           //
-           //     // console.log('bsi.io', bsi.io)
-           //     //
-           //     // bsi.io.on('*', (...args) => {
-           //     //         console.log('!!!!!!!!!!!!!');
-           //     //         console.log('does this', {args});
-           //     //         // console.log('window', window);
-           //     //         // window.close.bind(window)
-           //     //     });
-           //
-           //     // bsi.io.on('disconnect', (...args) => {
-           //     //     console.log('!!!!!!!!!!!!!');
-           //     //     console.log('does this', {args});
-           //     //     // console.log('window', window);
-           //     //     // window.close.bind(window)
-           //     // });
-           //
-           //
-           //
-           //     // bsi.emitter.on('disconnect', (...args) => {
-           //     //     console.log('does this', {args});
-           //     //     console.log('does this', {args});
-           //     // });
-           // },
-        });
-
-
         bs.init({...serverOptions });
-
-        // bs.socket.on('disconnect', function() {
-        //
-        // });
-        // hooks: {
-        //     ['client:js']: ___browserSync___.socket.on('disconnect', () => {
-        //         // window.close.bind(window
-        //         console.log('does this');
-        //     }
-        // hooks: {
-        //     ...serverOptions.hooks,
-        //     'client:js': ___browserSync___.socket.on('disconnect', window.close.bind(window));,
-        // }
 
         if (!options.watch) return ctx.dispose();
 

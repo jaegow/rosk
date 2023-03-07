@@ -1,12 +1,12 @@
 import path from 'path';
 import { Logger } from 'tslog';
 
-const sectionId = path.join(
-  path.basename(path.dirname(path.resolve(__dirname, '../'))),
-  path.basename(path.dirname(__dirname)),
-);
+const sectionId = 'rosk';
 
-console.log('scripts/utils/log.ts', { sectionId });
+// const sectionId = path.join(
+//   path.basename(path.dirname(path.resolve(__dirname, '../../'))),
+//   path.basename(path.dirname(__dirname)),
+// );
 
 const log = new Logger({
   type: 'pretty',

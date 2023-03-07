@@ -1,1 +1,23 @@
-<!DOCTYPE html><html lang="en"> <head> <meta charset="utf-8"> <!-- RUNTIME INJECTION OF HEAD TAG VIA react-helmet -->  <script defer="" type="module" src="/build/index.js"></script> </head> <body> <noscript> You need to enable JavaScript to run this app. </noscript> <div id="root"></div> </body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"> <!-- RUNTIME INJECTION OF HEAD TAG VIA react-helmet -->
+    <script defer="" type="module" src="/build/index.js"></script>
+</head>
+<body>
+<noscript> You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+
+    <script>
+        const webSocket = new WebSocket(`ws://${window.location.host}/ws`);
+        webSocket.onopen = (event) => {
+            console.log('client:webSocket.onopen', { event });
+            webSocket.send('client:webSocket.send() - we did it');
+            webSocket.onmessage = (event) => {
+                console.log({ event });
+            }
+        };
+    </script>
+
+</body>
+</html>

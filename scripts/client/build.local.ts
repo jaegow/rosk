@@ -4,7 +4,7 @@ require('dotenv').config();
 // paths built in sequence for objectification
 import path from 'path';
 import build from "./build";
-import {getSubLogger} from "../utils/log";
+import { getSubLogger } from "../shared/utils/log";
 
 const sectionId = 'watch';
 
