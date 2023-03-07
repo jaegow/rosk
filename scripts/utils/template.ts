@@ -21,10 +21,6 @@ const compileTemplates = async (buildDir: string, templates: CompileTemplateOpti
     log.info(`INJECT HTML STARTED`, { buildDir, templates });
     const buildFiles = fs.readdirSync(buildDir);
 
-    log.info(`INJECT`, {
-        buildFiles,
-    });
-
     await Promise.all(templates.map((template) => {
         let js_file_name;
         let css_file_name;
@@ -51,15 +47,6 @@ const compileTemplates = async (buildDir: string, templates: CompileTemplateOpti
 
         const css_path = `/build/${css_file_name}`;
         const js_path = `/build/${js_file_name}`;
-
-        log.info(`INJECT`, {
-            css_path,
-            css_file_name,
-            js_file_name,
-            js_path,
-        });
-
-
         const js_tag = js_file_name ? `<script defer="" type="module" src="${js_path}"></script>` : '';
         const css_tag = css_file_name ? `<link href="${css_path}" rel="stylesheet">` : '';
         const template_vars = { js_tag, css_tag };

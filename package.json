@@ -6,7 +6,7 @@
   "author": "Justin Gow <jaegow@gmail.com>",
   "license": "Apache-2.0",
   "scripts": {
-    "client.local": "tsx scripts/client/build.local.ts"
+    "client.local": "tsx watch scripts/client/build.local.ts"
   },
   "devDependencies": {
     "@types/browser-sync": "^2.26.3",
@@ -26,7 +26,6 @@
     "eslint-plugin-simple-import-sort": "^10.0.0",
     "eslint-plugin-unused-imports": "^2.0.0",
     "fs-extra": "^11.1.0",
-    "react-router-dom": "^6.8.2",
     "tslog": "^4.8.1",
     "tsx": "^3.12.3",
     "typescript": "^4.9.5",
@@ -34,6 +33,7 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.8.2"
   }
 }

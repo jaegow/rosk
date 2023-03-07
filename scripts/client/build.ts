@@ -130,7 +130,96 @@ const build = async (options: BuildOptions) => {
         };
         log.info(`SERVER STARTED`, { options: serverOptions });
         const bs = browserSync.create();
-        bs.init(serverOptions);
+
+        // module.exports = "";
+
+        // bs.stream()
+
+
+        // @ts-ignore
+        bs.use({
+            plugin: (opts, bsi) => {
+                console.log('shslkdjlwkjdklsd')
+
+                setTimeout(() => {
+                    const registeredConnections = Object.keys(bsi.io.sockets.sockets);
+                    if (registeredConnections.length === 0) {
+                        //
+                        bsi.getOption('open');
+
+                        // bsi.op
+                        // bsi.setOption('open', 'local');
+                        // bsi.utils.openBrowser(opts.options.getIn(['urls', 'local']), client.options, client);
+                    }
+                }, 1000);
+            },
+            hooks: {
+                ['client:js']: `
+                    ((window, bs) => {
+                        let canReload = false;
+                        bs.socket.on("connection", () => {
+                            if (canReload) {
+                                canReload = false;
+                                window.location.reload();
+                            }
+                        });
+                        bs.socket.on("disconnect", () => canReload = true);
+                    })(window, ___browserSync___);
+                `,
+            }
+           // plugin: (opts, bsi) => {
+           //     // console.log('bsi.io.sockets.server.eio.ws', bsi.io.sockets.server.eio.ws)
+           //
+           //     // console.log('bsi.io.sockets.server.eio', bsi.io.sockets.server.eio)
+           //
+           //     console.log('bsi.___browserSync___', bsi.___browserSync___);
+           //
+           //     //     ['client:js']: ___browserSync___.socket.on('disconnect', () => {
+           //     //         // window.close.bind(window
+           //     //         console.log('does this');
+           //     //     }
+           //
+           //
+           //     // console.log('bsi.io', bsi.io)
+           //     //
+           //     // bsi.io.on('*', (...args) => {
+           //     //         console.log('!!!!!!!!!!!!!');
+           //     //         console.log('does this', {args});
+           //     //         // console.log('window', window);
+           //     //         // window.close.bind(window)
+           //     //     });
+           //
+           //     // bsi.io.on('disconnect', (...args) => {
+           //     //     console.log('!!!!!!!!!!!!!');
+           //     //     console.log('does this', {args});
+           //     //     // console.log('window', window);
+           //     //     // window.close.bind(window)
+           //     // });
+           //
+           //
+           //
+           //     // bsi.emitter.on('disconnect', (...args) => {
+           //     //     console.log('does this', {args});
+           //     //     console.log('does this', {args});
+           //     // });
+           // },
+        });
+
+
+        bs.init({...serverOptions });
+
+        // bs.socket.on('disconnect', function() {
+        //
+        // });
+        // hooks: {
+        //     ['client:js']: ___browserSync___.socket.on('disconnect', () => {
+        //         // window.close.bind(window
+        //         console.log('does this');
+        //     }
+        // hooks: {
+        //     ...serverOptions.hooks,
+        //     'client:js': ___browserSync___.socket.on('disconnect', window.close.bind(window));,
+        // }
 
         if (!options.watch) return ctx.dispose();
 
@@ -161,7 +250,8 @@ const build = async (options: BuildOptions) => {
         watcher.on('ready', () => {
             watcher.on('all', async (eventType, filePath) => {
                 log.info(`WATCHING:  FILE CHANGE`, { eventType, filePath });
-                bs.notify("Compiling, please wait!");
+                bs.notify("Compiling, please wait!", 1000);
+
                 try {
                     const filePathTemplate = templateFromPath(filePath);
                     if (filePathTemplate) {
@@ -175,7 +265,15 @@ const build = async (options: BuildOptions) => {
                         built = await ctx.rebuild();
                         if (built.errors && built.errors.length) {
                             // OUTPUT BUILD INFO
-                            bs.notify(`HTML <p>Compilation Error:</p><br/><code>${JSON.stringify(built.errors, null, 2)}</code>`);
+                            bs.notify(
+                                `HTML
+                                        <p>Compilation Error:</p>
+                                        <br/>
+                                        <code>${JSON.stringify(built.errors, null, 2)}</code>
+                                        `
+                                ,
+                                1000
+                            );
                             log.info('Compilation Error\n', built.errors);
                         } else {
                             bs.reload('*.js');
@@ -184,7 +282,15 @@ const build = async (options: BuildOptions) => {
                     }
                 } catch (error) {
                     log.error(error);
-                    bs.notify(JSON.stringify(error, null, 2));
+                    bs.notify(
+                        `HTML
+                                 <p>Compilation Error:</p>
+                                 <br/>
+                                 <code>${JSON.stringify(error, null, 2)}</code>
+                                `
+                        ,
+                        1000
+                    );
                 }
             });
         });
